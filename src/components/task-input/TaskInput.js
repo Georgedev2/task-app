@@ -1,13 +1,13 @@
-import { useState } from "react";
+import "./task-input.scss";
 
-const TaskInput = () => {
+const TaskInput = ({ addToTaskList }) => {
   return (
     <div className="input-wrapper">
       <input
         type="text"
         placeholder="Enter a task..."
-        onKeyDown={addItemHandler}
-        className={`todo-input ${showBorder && "danger"}`}
+        onKeyDown={addToTaskList}
+        className="task-input"
       />
     </div>
   );

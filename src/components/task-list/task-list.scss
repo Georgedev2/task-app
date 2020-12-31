@@ -1,0 +1,47 @@
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #eee;
+  background-color: aliceblue;
+  font-family: Arial, sans-serif;
+  width: fit-content; /* this will make the with of the row adapt to it with of it content */
+  // min-width: 450px;
+  border-radius: 2px;
+  padding: 5px 15px;
+  box-sizing: border-box !important;
+  border-radius: 5px;
+  margin: 10px 10px;
+  font-size: 14px !important;
+}
+.row_numb {
+  padding: 0 5px;
+}
+.menu-btn {
+  font-size: 25px;
+  cursor: pointer;
+  padding: 0 7px 0 30px;
+}
+
+.row_menu-wrapper {
+  position: relative;
+}
+.menu {
+  position: absolute;
+  top: 15px;
+  left: 45px;
+  border: 1px solid #eee;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: aliceblue;
+  display: none;
+}
+.menu li {
+  list-style-type: none;
+  color: green;
+  margin: 10px 5px;
+  cursor: pointer;
+}
+.showMenu {
+  display: block;
+}
