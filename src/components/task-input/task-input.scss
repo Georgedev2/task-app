@@ -1,15 +1,17 @@
 .input-wrapper {
   .task-input {
     width: 100%;
+    box-sizing: border-box;
     max-width: 450px;
     border: 1px solid #ddd;
     padding: 0 15px;
-    height: 30px;
+    height: 40px;
     font-size: 14px;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
     border-radius: 5px;
     background-color: transparent;
     outline: none;
+    margin: 10px 10px;
   }
 }

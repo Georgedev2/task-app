@@ -24,29 +24,52 @@ function App() {
     let _taskList = [...taskList];
 
     if (inputValue && e.key === "Enter") {
-      _taskList.push({
+      /*    _taskList.push({
         id: uuidv4(),
         title: inputValue,
         completed: false,
         inprogress: false,
         openTaskModal: false,
-      });
+      }); */
+      let _taskList = [
+        ...taskList,
+        {
+          id: uuidv4(),
+          title: inputValue,
+          completed: false,
+          inprogress: false,
+          openTaskModal: false,
+        },
+      ];
+
       // clear the input  field
       e.target.value = "";
+      sync(_taskList);
     }
 
-    sync(_taskList);
+    //sync(_taskList);
   };
-  
+
   //for development purpose
   useEffect(() => {
     console.log(taskList);
+    //console.log(uuidv4())
   });
 
   const toggleRowModal = (input) => {
-    let _taskList = [...taskList];
-    console.log(input);
-
+    // let taskList =[...taskList];
+    /*  let taskList = taskList.slice();
+    console.log(taskList); */
+    taskList.forEach((task) => {
+      if (task.id === input.id) {
+        task.openTaskModal = true;
+      } else {
+        task.openTaskModal = false;
+      }
+    });
+    console.log(taskList);
+    //  sync(taskList);
+    /*
     _taskList.forEach((el) => {
       if ((input.id = el.id)) {
         el.openTaskModal = false;
@@ -54,9 +77,27 @@ function App() {
         el.openTaskModal = true;
       }
     });
-    sync(_taskList);
+    sync(_taskList); */
   };
 
+  /*  let deleteItemHandler = (i) => {
+    let _todoList = todoList.slice();
+    let anItem = _todoList.find((ele, index) => {
+      return i === index;
+    });
+
+    let index = _todoList.indexOf(anItem);
+    _todoList.splice(index, 1);
+
+    //  _todoList.some((el, i) => {
+    //   if (i === index) {
+    //    _todoList.splice(i, 1);
+    //   return true;
+    //  }
+
+    setTodoList(_todoList);
+    localStorage.setItem("todoList123", JSON.stringify(_todoList));
+  }; */
   return (
     <div className="App">
       <header className="App-header">
@@ -75,24 +116,4 @@ function App() {
 }
 
 export default App;
-
-/* [
-    {
-      id: 0,
-      title: "Go to the market",
-      completed: false,
-      inprogress: false,
-    },
-    {
-      id: 0,
-      title: "Buy some meat",
-      completed: false,
-      inprogress: false,
-    },
-    {
-      id: 0,
-      title: "Visit some friends",
-      completed: false,
-      inprogress: false,
-    },
-  ] */
+//git commmit -a -m
