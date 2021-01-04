@@ -52,32 +52,26 @@ function App() {
 
   //for development purpose
   useEffect(() => {
-    console.log(taskList);
+    //  console.log(taskList);
     //console.log(uuidv4())
+    //localStorage.clear()
   });
 
-  const toggleRowModal = (input) => {
-    // let taskList =[...taskList];
-    /*  let taskList = taskList.slice();
-    console.log(taskList); */
-    taskList.forEach((task) => {
-      if (task.id === input.id) {
+  const toggleRowModal = (id) => {
+    //console.log(id);
+    const modifiedTaskList = taskList.map((task) => {
+      if (task.id === id) {
         task.openTaskModal = true;
+        return task;
+        // Here we modify each property of the array element passed to the map function and then return it.
       } else {
         task.openTaskModal = false;
+        return task;
       }
     });
-    console.log(taskList);
-    //  sync(taskList);
-    /*
-    _taskList.forEach((el) => {
-      if ((input.id = el.id)) {
-        el.openTaskModal = false;
-      } else {
-        el.openTaskModal = true;
-      }
-    });
-    sync(_taskList); */
+
+    // console.log(modifiedTaskList);
+    sync(modifiedTaskList);
   };
 
   /*  let deleteItemHandler = (i) => {
@@ -98,6 +92,8 @@ function App() {
     setTodoList(_todoList);
     localStorage.setItem("todoList123", JSON.stringify(_todoList));
   }; */
+
+  /*  */
   return (
     <div className="App">
       <header className="App-header">
@@ -117,3 +113,19 @@ function App() {
 
 export default App;
 //git commmit -a -m
+
+/*   delete
+const handleClick = (index) => {
+    const List = list.slice();
+    List.splice(index, 1);
+    setList(List);
+  };
+ */
+/*   
+move to the top
+const clickHandler = (item, index) => {
+    const List = list.slice();
+    List.splice(index, 1);
+    List.unshift(item);
+    setlist(List);
+  }; */

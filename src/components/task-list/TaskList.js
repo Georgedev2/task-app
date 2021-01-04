@@ -14,13 +14,14 @@ const TaskRow = ({ taskList, toggleRowModal }) => {
             <div className="menu-btn">
               <span
                 onClick={() => {
-                  toggleRowModal(task);
+                  toggleRowModal(task.id);
                 }}
               >
                 &#x22EE;
               </span>
             </div>
             <ul className={`menu ${task.openTaskModal && "showMenu"}`}>
+              <span>X</span>
               <li>Completed</li>
               <li>Inprogress</li>
               <li>Delete</li>
