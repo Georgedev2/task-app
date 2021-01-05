@@ -21,16 +21,9 @@ function App() {
   //add To Task list from task input
   const addToTaskList = (e) => {
     let inputValue = e.target.value;
-    let _taskList = [...taskList];
+    //  let _taskList = [...taskList];
 
     if (inputValue && e.key === "Enter") {
-      /*    _taskList.push({
-        id: uuidv4(),
-        title: inputValue,
-        completed: false,
-        inprogress: false,
-        openTaskModal: false,
-      }); */
       let _taskList = [
         ...taskList,
         {
@@ -53,12 +46,10 @@ function App() {
   //for development purpose
   useEffect(() => {
     //  console.log(taskList);
-    //console.log(uuidv4())
     //localStorage.clear()
   });
 
   const toggleRowModal = (id) => {
-    //console.log(id);
     const modifiedTaskList = taskList.map((task) => {
       if (task.id === id) {
         task.openTaskModal = true;
@@ -69,11 +60,26 @@ function App() {
         return task;
       }
     });
-
-    // console.log(modifiedTaskList);
     sync(modifiedTaskList);
   };
+  const deleteATaskItem = (id) => {
+    const filteredItem = taskList.filter((el) => {
+      return el.id !== id;
+    });
+    sync(filteredItem);
 
+    //console.log(filteredItem);
+    // const taskList = taskList.slice();
+    console.log(taskList.slice());
+    /*  taskList.some((el, i) => {
+      if (i === id) {
+        taskList.splice(i, 1);
+        return true;
+      }
+    }); */
+
+    // console.log(taskList);
+  };
   /*  let deleteItemHandler = (i) => {
     let _todoList = todoList.slice();
     let anItem = _todoList.find((ele, index) => {
@@ -83,11 +89,11 @@ function App() {
     let index = _todoList.indexOf(anItem);
     _todoList.splice(index, 1);
 
-    //  _todoList.some((el, i) => {
-    //   if (i === index) {
-    //    _todoList.splice(i, 1);
-    //   return true;
-    //  }
+     _todoList.some((el, i) => {
+    if (i === index) {
+       _todoList.splice(i, 1);
+     return true;
+     }})
 
     setTodoList(_todoList);
     localStorage.setItem("todoList123", JSON.stringify(_todoList));
@@ -103,7 +109,8 @@ function App() {
         <TaskRow
           taskList={taskList}
           setTasklist={setTasklist}
-          toggleRowModal={toggleRowModal}
+          onToggleRowModal={toggleRowModal}
+          onDeleteATaskItem={deleteATaskItem}
         />
       </main>
       <footer className="App-footer"></footer>

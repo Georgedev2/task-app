@@ -1,12 +1,12 @@
 import React from "react";
 import "./task-list.scss";
 
-const TaskRow = ({ taskList, toggleRowModal }) => {
+const TaskRow = ({ taskList, onToggleRowModal, onDeleteATaskItem }) => {
   return (
     <div className="row-list">
       {taskList.map((task) => (
         <div className="row" key={task.id}>
-         {/*  <div className="row_numb">{task.id}.</div> */}
+          {/*  <div className="row_numb">{task.id}.</div> */}
 
           <div className="row_title">{task.title}</div>
 
@@ -14,7 +14,7 @@ const TaskRow = ({ taskList, toggleRowModal }) => {
             <div className="menu-btn">
               <span
                 onClick={() => {
-                  toggleRowModal(task.id);
+                  onToggleRowModal(task.id);
                 }}
               >
                 &#x22EE;
@@ -24,7 +24,14 @@ const TaskRow = ({ taskList, toggleRowModal }) => {
               <span>X</span>
               <li>Completed</li>
               <li>Inprogress</li>
-              <li>Delete</li>
+              <li
+                onClick={() => {
+                  onDeleteATaskItem(task.id);
+                }}
+              >
+                Delete
+              </li>
+              <li>&#x2191;</li>
             </ul>
           </div>
         </div>
