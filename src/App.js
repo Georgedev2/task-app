@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 /* --------- IMPORTING COMPONENTS ----------- */
 import TaskInput from "./components/task-input/TaskInput";
-import TaskRow from "./components/task-list/TaskList";
+import TaskList from "./components/task-list/TaskList";
 
 function App() {
   const tasks = localStorage.getItem("taskApp")
@@ -12,17 +12,15 @@ function App() {
     : [];
   const [taskList, setTasklist] = useState(tasks);
 
-  //sych with localStorage and local state
+  //SYNC WITH LOCALSTORAGE & LOCAL STATE
   let sync = (_taskList) => {
     setTasklist(_taskList);
     localStorage.setItem("taskApp", JSON.stringify(_taskList));
   };
 
-  //add To Task list from task input
+  //ADD TO TASK LIST FROM TASK INPUT
   const addToTaskList = (e) => {
     let inputValue = e.target.value;
-    //  let _taskList = [...taskList];
-
     if (inputValue && e.key === "Enter") {
       let _taskList = [
         ...taskList,
@@ -37,18 +35,17 @@ function App() {
 
       // clear the input  field
       e.target.value = "";
+      //sync with local state and local storage
       sync(_taskList);
     }
-
-    //sync(_taskList);
   };
 
-  //for development purpose
+  //FOR DEVELOPMENT PURPOSE
   useEffect(() => {
-    //  console.log(taskList);
-    //localStorage.clear()
+    console.log(taskList);
   });
 
+  //TOGGLE A TASK MODAL
   const toggleRowModal = (id) => {
     const modifiedTaskList = taskList.map((task) => {
       if (task.id === id) {
@@ -60,57 +57,80 @@ function App() {
         return task;
       }
     });
+    //sync with local state and local storage
     sync(modifiedTaskList);
   };
+
+  //DELETE A TASK ITEM
   const deleteATaskItem = (id) => {
+    //This will filter out the task that was clicked from the task list and the sync the resulting tasklist
     const filteredItem = taskList.filter((el) => {
       return el.id !== id;
     });
+    //sync with local state and local storage
     sync(filteredItem);
-
-    //console.log(filteredItem);
-    // const taskList = taskList.slice();
-    console.log(taskList.slice());
-    /*  taskList.some((el, i) => {
-      if (i === id) {
-        taskList.splice(i, 1);
-        return true;
-      }
-    }); */
-
-    // console.log(taskList);
   };
-  /*  let deleteItemHandler = (i) => {
-    let _todoList = todoList.slice();
-    let anItem = _todoList.find((ele, index) => {
-      return i === index;
+
+  //MOVE CLICK TASK TO TO
+  const moveClickedTaskToTop = (task, index) => {
+    //make copy of the taskList using map
+    const taskListCopy = taskList.map((el) => el);
+    taskListCopy.splice(index, 1);
+    taskListCopy.unshift(task);
+    //sync with local state and local storage
+    sync(taskListCopy);
+  };
+
+  //TURN THE INPROGRESS PROPERTY OF THE CLICKED TASK TO TRUE
+  const handleInprogress = (id) => {
+    const taskListCopy = taskList.map((task) => {
+      if (task.id === id) {
+        task.inprogress = true;
+        return task;
+      } else {
+        return task;
+      }
     });
+    //sync with local state and local storage
+    sync(taskListCopy);
+  };
 
-    let index = _todoList.indexOf(anItem);
-    _todoList.splice(index, 1);
+  //TURN THE COMPLETED PROPERTY OF THE CLICKED TASK TO TRUE
+  const handleCompleted = (id) => {
+    const taskListCopy = taskList.map((task) => {
+      if (task.id === id) {
+        task.completed = true;
+        return task;
+      } else {
+        return task;
+      }
+    });
+    sync(taskListCopy);
+  };
+  // CLOSE MENU MODAL
+  const closeTaskMenu = () => {
+    const taskListCopy = taskList.map((task) => {
+      task.openTaskModal = false;
+      return task;
+    });
+    sync(taskListCopy);
+  };
 
-     _todoList.some((el, i) => {
-    if (i === index) {
-       _todoList.splice(i, 1);
-     return true;
-     }})
-
-    setTodoList(_todoList);
-    localStorage.setItem("todoList123", JSON.stringify(_todoList));
-  }; */
-
-  /*  */
   return (
     <div className="App">
       <header className="App-header">
         <TaskInput addToTaskList={addToTaskList} />
       </header>
       <main className="App-body">
-        <TaskRow
+        <TaskList
           taskList={taskList}
           setTasklist={setTasklist}
           onToggleRowModal={toggleRowModal}
           onDeleteATaskItem={deleteATaskItem}
+          onMoveClickedTaskToTop={moveClickedTaskToTop}
+          onHandleInprogress={handleInprogress}
+          onHandleCompleted={handleCompleted}
+          onCloseTaskMenu={closeTaskMenu}
         />
       </main>
       <footer className="App-footer"></footer>
@@ -120,19 +140,3 @@ function App() {
 
 export default App;
 //git commmit -a -m
-
-/*   delete
-const handleClick = (index) => {
-    const List = list.slice();
-    List.splice(index, 1);
-    setList(List);
-  };
- */
-/*   
-move to the top
-const clickHandler = (item, index) => {
-    const List = list.slice();
-    List.splice(index, 1);
-    List.unshift(item);
-    setlist(List);
-  }; */

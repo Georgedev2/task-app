@@ -1,14 +1,26 @@
 import React from "react";
 import "./task-list.scss";
 
-const TaskRow = ({ taskList, onToggleRowModal, onDeleteATaskItem }) => {
+const TaskList = ({
+  taskList,
+  onToggleRowModal,
+  onDeleteATaskItem,
+  onMoveClickedTaskToTop,
+  onHandleInprogress,
+  onHandleCompleted,
+  onCloseTaskMenu,
+}) => {
   return (
     <div className="row-list">
-      {taskList.map((task) => (
-        <div className="row" key={task.id}>
-          {/*  <div className="row_numb">{task.id}.</div> */}
-
-          <div className="row_title">{task.title}</div>
+      {taskList.map((task, index) => (
+        <div
+          className={`row ${task.inprogress && "inprogress"} 
+          ${task.completed && "completed"}`}
+          key={task.id}
+        >
+          <div className={`row_title ${task.completed && "line-Through"}`}>
+            {task.title}
+          </div>
 
           <div className="row_menu-wrapper">
             <div className="menu-btn">
@@ -21,9 +33,27 @@ const TaskRow = ({ taskList, onToggleRowModal, onDeleteATaskItem }) => {
               </span>
             </div>
             <ul className={`menu ${task.openTaskModal && "showMenu"}`}>
-              <span>X</span>
-              <li>Completed</li>
-              <li>Inprogress</li>
+              <span className="menu-close-btn"
+                onClick={() => {
+                  onCloseTaskMenu();
+                }}
+              >
+                X
+              </span>
+              <li
+                onClick={() => {
+                  onHandleCompleted(task.id);
+                }}
+              >
+                Completed
+              </li>
+              <li
+                onClick={() => {
+                  onHandleInprogress(task.id);
+                }}
+              >
+                Inprogress
+              </li>
               <li
                 onClick={() => {
                   onDeleteATaskItem(task.id);
@@ -31,7 +61,13 @@ const TaskRow = ({ taskList, onToggleRowModal, onDeleteATaskItem }) => {
               >
                 Delete
               </li>
-              <li>&#x2191;</li>
+              <li
+                onClick={() => {
+                  onMoveClickedTaskToTop(task, index);
+                }}
+              >
+                &#x2191;
+              </li>
             </ul>
           </div>
         </div>
@@ -40,4 +76,4 @@ const TaskRow = ({ taskList, onToggleRowModal, onDeleteATaskItem }) => {
   );
 };
 
-export default TaskRow;
+export default TaskList;
