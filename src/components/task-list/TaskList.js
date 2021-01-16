@@ -23,17 +23,18 @@ const TaskList = ({
           </div>
 
           <div className="row_menu-wrapper">
-            <div className="menu-btn">
-              <span
-                onClick={() => {
-                  onToggleRowModal(task.id);
-                }}
-              >
-                &#x22EE;
-              </span>
+            <div
+              className="menu-btn"
+              onClick={() => {
+                onToggleRowModal(task.id);
+              }}
+            >
+              <span>&#x22EE;</span>
             </div>
+
             <ul className={`menu ${task.openTaskModal && "showMenu"}`}>
-              <span className="menu-close-btn"
+              <span
+                className="menu-close-btn"
                 onClick={() => {
                   onCloseTaskMenu();
                 }}

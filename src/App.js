@@ -11,11 +11,13 @@ function App() {
     ? JSON.parse(localStorage.getItem("taskApp"))
     : [];
   const [taskList, setTasklist] = useState(tasks);
+  const [completedTask, setCompletedTask] = useState(0);
 
   //SYNC WITH LOCALSTORAGE & LOCAL STATE
   let sync = (_taskList) => {
     setTasklist(_taskList);
     localStorage.setItem("taskApp", JSON.stringify(_taskList));
+    getTotalCompletedTask();
   };
 
   //ADD TO TASK LIST FROM TASK INPUT
@@ -106,6 +108,15 @@ function App() {
       }
     });
     sync(taskListCopy);
+   
+  };
+
+  // TOTAL COMPLETED TASKS
+  const getTotalCompletedTask = () => {
+    let totalCompletedTasks = taskList.filter(
+      (task) => task.completed === true
+    );
+    setCompletedTask(totalCompletedTasks.length);
   };
   // CLOSE MENU MODAL
   const closeTaskMenu = () => {
@@ -118,9 +129,23 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header"></header>
+      <div>
+        <div>
+          <span>Task for</span> <span>{new Date().toISOString()}</span>
+        </div>
+        <div>
+          <span>Total Completed Task</span> 
+          <span>{completedTask}</span>
+        </div>
+        <div>
+          <span>Total Task</span>
+          <span>{taskList.length}</span>
+        </div>
+      </div>
+      <div>
         <TaskInput addToTaskList={addToTaskList} />
-      </header>
+      </div>
       <main className="App-body">
         <TaskList
           taskList={taskList}
@@ -140,3 +165,7 @@ function App() {
 
 export default App;
 //git commmit -a -m
+/* Avoid duplication and extract re-usable modules where it makes sense, but don't break things apart needlessly. We want to see that you can create a codebase that is easy to maintain. */
+
+/* 
+Organize your code with components. Extract components that help you avoid duplication, but don't break things apart needlessly. We want to see that you can implement the UI with sound HTML semantics. */

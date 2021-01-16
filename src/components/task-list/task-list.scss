@@ -1,68 +1,70 @@
-.row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid #eee;
-  background-color: aliceblue;
-  font-family: Arial, sans-serif;
-  width: fit-content; /* this will make the with of the row adapt to it with of it content */
-  min-width: 450px;
-  border-radius: 2px;
-  padding: 5px 15px;
-  box-sizing: border-box !important;
-  border-radius: 5px;
-  margin: 10px 10px;
-  font-size: 14px !important;
-}
-.inprogress {
-  background-color: rosybrown;
-  color: #ddd;
-}
-.completed {
-  background-color: lightgreen;
- 
-}
-.line-Through {
- 
-  text-decoration: line-through;
-  text-decoration-color: red;
-}
-.menu-btn {
-  font-size: 25px;
-  cursor: pointer;
-  padding: 0 7px 0 30px;
-}
-.menu-close-btn{
-  cursor: pointer;
-  color: #000;
-  &:hover{
-    color: rgb(241, 116, 116);
+.row-list {
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #eee;
+    background-color: aliceblue;
+    font-family: Arial, sans-serif;
+    width: fit-content; /* this will make the with of the row adapt to it with of it content */
+    min-width: 450px;
+    border-radius: 2px;
+    padding: 5px 15px;
+    box-sizing: border-box !important;
+    border-radius: 5px;
+    margin: 10px 10px;
+    font-size: 14px !important;
+    text-transform: capitalize;
+  }
+  .inprogress {
+    background-color: rosybrown;
+   /*  color: #ddd; */
+  }
+  .completed {
+    background-color: lightgreen;
+  }
+  .line-Through {
+    text-decoration: line-through;
+    text-decoration-color: red;
   }
 }
 ///
 .menu-btn:active {
-  background-color: rgba(219, 218, 218, 0.5) !important;
+  background-color: rgba(219, 218, 218, 0.5);
 }
 ///
 .row_menu-wrapper {
   position: relative;
-}
-.menu {
-  position: absolute;
-  top: 15px;
-  left: 45px;
-  border: 1px solid #eee;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: aliceblue;
-  display: none;
-}
-.menu li {
-  list-style-type: none;
-  color: green;
-  margin: 10px 5px;
-  cursor: pointer;
-}
-.showMenu {
-  display: block;
+  .menu-btn {
+    font-size: 25px;
+    cursor: pointer;
+    padding: 0 7px 0 30px;
+  }
+  .menu {
+    position: absolute;
+    z-index: 500;
+    top: 15px;
+    left: 45px;
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: aliceblue;
+    display: none;
+    .menu-close-btn {
+      cursor: pointer;
+      color: #000;
+      &:hover {
+        color: rgb(241, 116, 116);
+      }
+    }
+    li {
+      list-style-type: none;
+      color: green;
+      margin: 10px 5px;
+      cursor: pointer;
+    }
+  }
+  .showMenu {
+    display: block;
+  }
 }
