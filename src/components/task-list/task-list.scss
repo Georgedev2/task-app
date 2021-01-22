@@ -1,9 +1,12 @@
 .row-list {
+  width: fit-content;
+  margin: 50px auto;
+
   .row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid #eee;
+  /*   border: 1px solid #eee; */
     background-color: aliceblue;
     font-family: Arial, sans-serif;
     width: fit-content; /* this will make the with of the row adapt to it with of it content */
@@ -15,10 +18,11 @@
     margin: 10px 10px;
     font-size: 14px !important;
     text-transform: capitalize;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
   }
   .inprogress {
     background-color: rosybrown;
-   /*  color: #ddd; */
+    /*  color: #ddd; */
   }
   .completed {
     background-color: lightgreen;

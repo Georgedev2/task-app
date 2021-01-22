@@ -1,15 +1,18 @@
 import React from "react";
 import "./task-list.scss";
+import useTask from "./useTask";
 
-const TaskList = ({
-  taskList,
-  onToggleRowModal,
-  onDeleteATaskItem,
-  onMoveClickedTaskToTop,
-  onHandleInprogress,
-  onHandleCompleted,
-  onCloseTaskMenu,
-}) => {
+function TaskList(props) {
+  const {
+    taskList,
+    onToggleRowModal,
+    onDeleteATaskItem,
+    onMoveClickedTaskToTop,
+    onHandleInprogress,
+    onHandleCompleted,
+    onCloseTaskMenu,
+  } = props;
+
   return (
     <div className="row-list">
       {taskList.map((task, index) => (
@@ -75,6 +78,6 @@ const TaskList = ({
       ))}
     </div>
   );
-};
+}
 
 export default TaskList;

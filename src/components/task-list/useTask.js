@@ -1,13 +1,7 @@
 import { useState, useEffect } from "react";
-import "./App.scss";
 import { v4 as uuidv4 } from "uuid";
-import Button from "./components/reusables/buttons/Button"
 
-/* --------- IMPORTING COMPONENTS ----------- */
-import TaskInput from "./components/task-input/TaskInput";
-import TaskList from "./components/task-list/TaskList";
-
-function App() {
+function useTask() {
   const tasks = localStorage.getItem("taskApp")
     ? JSON.parse(localStorage.getItem("taskApp"))
     : [];
@@ -41,11 +35,6 @@ function App() {
       sync(_taskList);
     }
   };
-
-  //FOR DEVELOPMENT PURPOSE
-  useEffect(() => {
-    console.log(taskList);
-  });
 
   //TOGGLE A TASK MODAL
   const toggleRowModal = (id) => {
@@ -109,7 +98,6 @@ function App() {
     });
     sync(taskListCopy);
   };
-
   // TOTAL COMPLETED TASKS
   const getTotalCompletedTask = () => {
     let totalCompletedTasks = taskList.filter(
@@ -117,6 +105,7 @@ function App() {
     );
     setCompletedTask(totalCompletedTasks.length);
   };
+
   // CLOSE MENU MODAL
   const closeTaskMenu = () => {
     const taskListCopy = taskList.map((task) => {
@@ -125,49 +114,18 @@ function App() {
     });
     sync(taskListCopy);
   };
-
-  return (
-    <div className="App">
-      <header className="App-header"></header>
-      <div>
-        <div>
-          <span>Task for</span> <span>{new Date().toISOString()}</span>
-        </div>
-        <div>
-          <span>Total Completed Task</span>
-          <span>{completedTask}</span>
-        </div>
-        <div>
-          <span>Total Task</span>
-          <span>{taskList.length}</span>
-        </div>
-        <div>
-          <Button title="Clear All Completed Task" />
-        </div>
-      </div>
-      <div>
-        <TaskInput addToTaskList={addToTaskList} />
-      </div>
-      <main className="App-body">
-        <TaskList
-          taskList={taskList}
-          setTasklist={setTasklist}
-          onToggleRowModal={toggleRowModal}
-          onDeleteATaskItem={deleteATaskItem}
-          onMoveClickedTaskToTop={moveClickedTaskToTop}
-          onHandleInprogress={handleInprogress}
-          onHandleCompleted={handleCompleted}
-          onCloseTaskMenu={closeTaskMenu}
-        />
-      </main>
-      <footer className="App-footer"></footer>
-    </div>
-  );
+  return {
+    taskList,
+    completedTask,
+    addToTaskList,
+    toggleRowModal,
+    deleteATaskItem,
+    moveClickedTaskToTop,
+    handleInprogress,
+    handleCompleted,
+    getTotalCompletedTask,
+    closeTaskMenu,
+  };
 }
 
-export default App;
-//git commmit -a -m
-/* Avoid duplication and extract re-usable modules where it makes sense, but don't break things apart needlessly. We want to see that you can create a codebase that is easy to maintain. */
-
-/* 
-Organize your code with components. Extract components that help you avoid duplication, but don't break things apart needlessly. We want to see that you can implement the UI with sound HTML semantics. */
+export default useTask;
