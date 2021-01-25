@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.scss";
 import { v4 as uuidv4 } from "uuid";
-import Button from "./components/reusables/buttons/Button"
+import Button from "./components/reusables/buttons/Button";
 
 /* --------- IMPORTING COMPONENTS ----------- */
 import TaskInput from "./components/task-input/TaskInput";
@@ -128,23 +128,26 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header"></header>
-      <div>
-        <div>
-          <span>Task for</span> <span>{new Date().toISOString()}</span>
+      <header className="App-header">
+        <div className="app-body">
+          <div className="app-body_date">
+            <span>Task for</span> <span>{new Date().toISOString()}</span>
+          </div>
+          <div className="app-body_memu">
+            <div className="menu-first-child">
+              <span>Total Task</span>
+              <span>{taskList.length}</span>
+            </div>
+            <div className="app-body_memu">
+              <span>Total Completed Task</span>
+              <span>{completedTask}</span>
+            </div>
+
+            <div className="app-body_memu">Clear All Completed Task</div>
+          </div>
         </div>
-        <div>
-          <span>Total Completed Task</span>
-          <span>{completedTask}</span>
-        </div>
-        <div>
-          <span>Total Task</span>
-          <span>{taskList.length}</span>
-        </div>
-        <div>
-          <Button title="Clear All Completed Task" />
-        </div>
-      </div>
+      </header>
+
       <div>
         <TaskInput addToTaskList={addToTaskList} />
       </div>
@@ -167,7 +170,3 @@ function App() {
 
 export default App;
 //git commmit -a -m
-/* Avoid duplication and extract re-usable modules where it makes sense, but don't break things apart needlessly. We want to see that you can create a codebase that is easy to maintain. */
-
-/* 
-Organize your code with components. Extract components that help you avoid duplication, but don't break things apart needlessly. We want to see that you can implement the UI with sound HTML semantics. */
