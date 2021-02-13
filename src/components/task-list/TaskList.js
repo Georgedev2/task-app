@@ -1,6 +1,4 @@
-import React from "react";
 import "./task-list.scss";
-import useTask from "./useTask";
 
 function TaskList(props) {
   const {

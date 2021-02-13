@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.scss";
 import { v4 as uuidv4 } from "uuid";
-import Button from "./components/reusables/buttons/Button";
 
 /* --------- IMPORTING COMPONENTS ----------- */
 import TaskInput from "./components/task-input/TaskInput";
