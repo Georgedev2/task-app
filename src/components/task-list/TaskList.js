@@ -1,48 +1,67 @@
-import "./task-list.scss";
+import './task-list.scss';
+//import { useEffect } from 'react';
 
 function TaskList(props) {
-  const {
-    taskList,
-    onToggleRowModal,
-    onDeleteATaskItem,
-    onMoveClickedTaskToTop,
-    onHandleInprogress,
-    onHandleCompleted,
-    onCloseTaskMenu,
-  } = props;
+  const { taskList, handles, onToggleRowModal } = props;
 
   return (
-    <div className="row-list">
+    <div className='task-list'>
       {taskList.map((task, index) => (
         <div
-          className={`row ${task.inprogress && "inprogress"} 
-          ${task.completed && "completed"}`}
+          className={`a-task 
+          ${task.inprogress && 'inprogress'} 
+          ${task.completed && 'completed'}`}
           key={task.id}
         >
-          <div className={`row_title ${task.completed && "line-Through"}`}>
+          <div className={`row_title ${task.completed && 'line-Through'}`}>
             {task.title}
           </div>
 
-          <div className="row_menu-wrapper">
+          <div className='row_menu-wrapper'>
             <div
-              className="menu-btn"
+              className='menu-btn'
               onClick={() => {
                 onToggleRowModal(task.id);
               }}
             >
+              {/* Returns vertical tripple dots like this ⋮  */}
               <span>&#x22EE;</span>
             </div>
 
-            <ul className={`menu ${task.openTaskModal && "showMenu"}`}>
-              <span
-                className="menu-close-btn"
+            <ul className={`task-menu ${task.openTaskModal && 'showMenu'}`}>
+              {handles.map((el, idx) => (
+                <li
+                  key={idx}
+                  onClick={() => {
+                    el.handle(task.id, index, task);
+                  }}
+                >
+                  {el.label}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default TaskList;
+
+{
+  /*    <span
+                className='menu-close-btn'
                 onClick={() => {
                   onCloseTaskMenu();
                 }}
               >
                 X
-              </span>
-              <li
+              </span> */
+}
+
+{
+  /*   <li
                 onClick={() => {
                   onHandleCompleted(task.id);
                 }}
@@ -69,13 +88,22 @@ function TaskList(props) {
                 }}
               >
                 &#x2191;
-              </li>
-            </ul>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+              </li>  */
 }
+/*     onDeleteATaskItem,
+    onMoveClickedTaskToTop,
+    onHandleInprogress,
+    onHandleCompleted,
+    onCloseTaskMenu, */
 
-export default TaskList;
+/* {[
+            { handle: deleteATaskItem, label: 'Delete' },
+            { handle: moveClickedTaskToTop, label: 'Move To Top' },
+            { handle: handleInprogress, label: 'In progress' },
+            { handle: handleCompleted, label: 'Completed' },
+            { handle: closeTaskMenu, label: 'X' },
+          ]} */
+
+/*  useEffect(() => {
+ //   console.log(handles);
+  }); */

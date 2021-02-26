@@ -5,7 +5,7 @@ const TaskInput = ({ addToTaskList }) => {
     <div className="input-wrapper">
       <input
         type="text"
-        placeholder="Enter a task..."
+        placeholder="Create a task..."
         onKeyDown={addToTaskList}
         className="task-input"
       />

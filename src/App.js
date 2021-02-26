@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
-import "./App.scss";
-import { v4 as uuidv4 } from "uuid";
+import { useState, useEffect } from 'react';
+import './App.scss';
+import { v4 as uuidv4 } from 'uuid';
 
 /* --------- IMPORTING COMPONENTS ----------- */
-import TaskInput from "./components/task-input/TaskInput";
-import TaskList from "./components/task-list/TaskList";
+import TaskInput from './components/task-input/TaskInput';
+import TaskList from './components/task-list/TaskList';
 
 function App() {
-  const tasks = localStorage.getItem("taskApp")
-    ? JSON.parse(localStorage.getItem("taskApp"))
+  const tasks = localStorage.getItem('taskApp')
+    ? JSON.parse(localStorage.getItem('taskApp'))
     : [];
   const [taskList, setTasklist] = useState(tasks);
   const [completedTask, setCompletedTask] = useState(0);
@@ -16,14 +16,14 @@ function App() {
   //SYNC WITH LOCALSTORAGE & LOCAL STATE
   let sync = (_taskList) => {
     setTasklist(_taskList);
-    localStorage.setItem("taskApp", JSON.stringify(_taskList));
+    localStorage.setItem('taskApp', JSON.stringify(_taskList));
     getTotalCompletedTask();
   };
 
   //ADD TO TASK LIST FROM TASK INPUT
   const addToTaskList = (e) => {
     let inputValue = e.target.value;
-    if (inputValue && e.key === "Enter") {
+    if (inputValue && e.key === 'Enter') {
       let _taskList = [
         ...taskList,
         {
@@ -35,16 +35,11 @@ function App() {
         },
       ];
       // clear the input  field
-      e.target.value = "";
+      e.target.value = '';
       //sync with local state and local storage
       sync(_taskList);
     }
   };
-
-  //FOR DEVELOPMENT PURPOSE
-  useEffect(() => {
-    console.log(taskList);
-  });
 
   //TOGGLE A TASK MODAL
   const toggleRowModal = (id) => {
@@ -54,6 +49,7 @@ function App() {
         return task;
         // Here we modify each property of the array element passed to the map function and then return it.
       } else {
+        //////////////////////////////////////////////////////////////////////
         task.openTaskModal = false;
         return task;
       }
@@ -73,11 +69,12 @@ function App() {
   };
 
   //MOVE CLICK TASK TO TO
-  const moveClickedTaskToTop = (task, index) => {
-    //make copy of the taskList using map
+  const moveClickedTaskToTop = (id, idx, task) => {
+    //make copy of the taskList using the array map method
     const taskListCopy = taskList.map((el) => el);
-    taskListCopy.splice(index, 1);
+    taskListCopy.splice(idx, 1);
     taskListCopy.unshift(task);
+
     //sync with local state and local storage
     sync(taskListCopy);
   };
@@ -125,24 +122,29 @@ function App() {
     sync(taskListCopy);
   };
 
+  //FOR DEVELOPMENT PURPOSE
+  useEffect(() => {
+    //console.log(taskList);
+    // localStorage.clear()
+  });
   return (
-    <div className="App">
-      <header className="App-header">
-        <div className="app-body">
-          <div className="app-body_date">
+    <div className='App'>
+      <header className='App-header'>
+        <div className='app-body'>
+          <div className='app-body_date'>
             <span>Task for</span> <span>{new Date().toISOString()}</span>
           </div>
-          <div className="app-body_memu">
-            <div className="menu-first-child">
+          <div className='app-body_memu'>
+            <div className='menu-first-child'>
               <span>Total Task</span>
               <span>{taskList.length}</span>
             </div>
-            <div className="app-body_memu">
+            <div className='app-body_memu'>
               <span>Total Completed Task</span>
               <span>{completedTask}</span>
             </div>
 
-            <div className="app-body_memu">Clear All Completed Task</div>
+            <div className='app-body_memu'>Clear All Completed Task</div>
           </div>
         </div>
       </header>
@@ -150,19 +152,27 @@ function App() {
       <div>
         <TaskInput addToTaskList={addToTaskList} />
       </div>
-      <main className="App-body">
+      <main className='App-body'>
         <TaskList
           taskList={taskList}
           setTasklist={setTasklist}
+          handles={[
+            { handle: closeTaskMenu, label: 'Close Menu' },
+            { handle: deleteATaskItem, label: 'Delete Task' },
+            { handle: moveClickedTaskToTop, label: 'Move To Top' },
+            { handle: handleInprogress, label: 'In progress' },
+            { handle: handleCompleted, label: 'Completed' },
+          ]}
           onToggleRowModal={toggleRowModal}
+          /*      onToggleRowModal={toggleRowModal}
           onDeleteATaskItem={deleteATaskItem}
           onMoveClickedTaskToTop={moveClickedTaskToTop}
           onHandleInprogress={handleInprogress}
           onHandleCompleted={handleCompleted}
-          onCloseTaskMenu={closeTaskMenu}
+          onCloseTaskMenu={closeTaskMenu} */
         />
       </main>
-      <footer className="App-footer"></footer>
+      <footer className='App-footer'></footer>
     </div>
   );
 }
