@@ -9,23 +9,5 @@
 .App-header {
   height: 50px;
   margin-bottom: 40px;
-  .app-body {
-    width: 85%;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items:flex-start;
 
-    .menu-first-child span {
-      margin-left: 5px;
-    }
-    .app-body_date span {
-      display: block;
-    }
-    .app-body_memu {
-      display: flex;
-      justify-content: space-evenly;
-      width: 60%;
-    }
-  }
 }

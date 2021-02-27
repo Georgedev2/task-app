@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import './App.scss';
+import TaskHeader from './components/task-header/TaskHeader';
+
 import { v4 as uuidv4 } from 'uuid';
 
 /* --------- IMPORTING COMPONENTS ----------- */
@@ -49,7 +51,6 @@ function App() {
         return task;
         // Here we modify each property of the array element passed to the map function and then return it.
       } else {
-        //////////////////////////////////////////////////////////////////////
         task.openTaskModal = false;
         return task;
       }
@@ -130,29 +131,13 @@ function App() {
   return (
     <div className='App'>
       <header className='App-header'>
-        <div className='app-body'>
-          <div className='app-body_date'>
-            <span>Task for</span> <span>{new Date().toISOString()}</span>
-          </div>
-          <div className='app-body_memu'>
-            <div className='menu-first-child'>
-              <span>Total Task</span>
-              <span>{taskList.length}</span>
-            </div>
-            <div className='app-body_memu'>
-              <span>Total Completed Task</span>
-              <span>{completedTask}</span>
-            </div>
-
-            <div className='app-body_memu'>Clear All Completed Task</div>
-          </div>
-        </div>
+        <TaskHeader taskList={taskList} completedTask={completedTask} />
       </header>
 
-      <div>
-        <TaskInput addToTaskList={addToTaskList} />
-      </div>
       <main className='App-body'>
+        <div>
+          <TaskInput addToTaskList={addToTaskList} />
+        </div>
         <TaskList
           taskList={taskList}
           setTasklist={setTasklist}
@@ -164,12 +149,6 @@ function App() {
             { handle: handleCompleted, label: 'Completed' },
           ]}
           onToggleRowModal={toggleRowModal}
-          /*      onToggleRowModal={toggleRowModal}
-          onDeleteATaskItem={deleteATaskItem}
-          onMoveClickedTaskToTop={moveClickedTaskToTop}
-          onHandleInprogress={handleInprogress}
-          onHandleCompleted={handleCompleted}
-          onCloseTaskMenu={closeTaskMenu} */
         />
       </main>
       <footer className='App-footer'></footer>
@@ -179,3 +158,4 @@ function App() {
 
 export default App;
 //git commmit -a -m
+
