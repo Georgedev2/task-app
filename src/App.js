@@ -82,7 +82,18 @@ function App() {
 
   //TURN THE INPROGRESS PROPERTY OF THE CLICKED TASK TO TRUE
   const handleInprogress = (id) => {
-    const taskListCopy = taskList.map((task) => {
+    //When Inprogress button is clicked turn all task whose completed==true to false then return the modified task
+    let taskListCopy = taskList.map((task) => {
+      if (task.id === id) {
+        task.completed = false;
+        return task;
+      } else {
+        return task;
+      }
+    });
+
+    // then turn all the all task whose inprogress==false except for the one that was clicked to true
+    taskListCopy = taskList.map((task) => {
       if (task.id === id) {
         task.inprogress = true;
         return task;
@@ -96,7 +107,18 @@ function App() {
 
   //TURN THE COMPLETED PROPERTY OF THE CLICKED TASK TO TRUE
   const handleCompleted = (id) => {
-    const taskListCopy = taskList.map((task) => {
+    //When completed button is clicked turn all task whose inprogress==true to true
+    let taskListCopy = taskList.map((task) => {
+      if (task.id === id) {
+        task.inprogress = false;
+        return task;
+      } else {
+        return task;
+      }
+    });
+
+    // then turn all the all task whose completed==false except for the one that was clicked to false
+    taskListCopy = taskList.map((task) => {
       if (task.id === id) {
         task.completed = true;
         return task;
@@ -114,6 +136,7 @@ function App() {
     );
     setCompletedTask(totalCompletedTasks.length);
   };
+
   // CLOSE MENU MODAL
   const closeTaskMenu = () => {
     const taskListCopy = taskList.map((task) => {
@@ -138,6 +161,9 @@ function App() {
         <div>
           <TaskInput addToTaskList={addToTaskList} />
         </div>
+        <div className='all-tasks-title'>
+          <span>{taskList.length} Active Tasks</span>
+        </div>
         <TaskList
           taskList={taskList}
           setTasklist={setTasklist}
@@ -159,3 +185,12 @@ function App() {
 export default App;
 //git commmit -a -m
 
+/*  window.addEventListener('click', () => {
+    const taskListCopy = taskList.map((task) => {
+      task.openTaskModal = false;
+      return task;
+    });
+
+    sync(taskListCopy);
+    //openTaskModal
+  }); */
