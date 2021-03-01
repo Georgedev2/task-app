@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './App.scss';
 import TaskHeader from './components/task-header/TaskHeader';
+import EditTaskModal from './components/reusables/edit-task-modal/EditTaskModal';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -9,17 +10,16 @@ import TaskInput from './components/task-input/TaskInput';
 import TaskList from './components/task-list/TaskList';
 
 function App() {
+  //SETTING OF STATES
   const tasks = localStorage.getItem('taskApp')
     ? JSON.parse(localStorage.getItem('taskApp'))
     : [];
   const [taskList, setTasklist] = useState(tasks);
-  const [completedTask, setCompletedTask] = useState(0);
 
   //SYNC WITH LOCALSTORAGE & LOCAL STATE
   let sync = (_taskList) => {
     setTasklist(_taskList);
     localStorage.setItem('taskApp', JSON.stringify(_taskList));
-    getTotalCompletedTask();
   };
 
   //ADD TO TASK LIST FROM TASK INPUT
@@ -43,8 +43,8 @@ function App() {
     }
   };
 
-  //TOGGLE A TASK MODAL
-  const toggleRowModal = (id) => {
+  //THIS WILL OPEN THE CLICKED TASK MENU
+  const openTheClickedTaskMenu = (id) => {
     const modifiedTaskList = taskList.map((task) => {
       if (task.id === id) {
         task.openTaskModal = true;
@@ -65,8 +65,9 @@ function App() {
     const filteredItem = taskList.filter((el) => {
       return el.id !== id;
     });
-    //sync with local state and local storage
-    sync(filteredItem);
+
+    //Close the task menu & then sync with local state and local storage
+    closeTaskMenu(filteredItem);
   };
 
   //MOVE CLICK TASK TO TO
@@ -76,8 +77,8 @@ function App() {
     taskListCopy.splice(idx, 1);
     taskListCopy.unshift(task);
 
-    //sync with local state and local storage
-    sync(taskListCopy);
+    //Close the task menu & then sync with local state and local storage
+    closeTaskMenu(taskListCopy);
   };
 
   //TURN THE INPROGRESS PROPERTY OF THE CLICKED TASK TO TRUE
@@ -101,8 +102,8 @@ function App() {
         return task;
       }
     });
-    //sync with local state and local storage
-    sync(taskListCopy);
+    //Close the task menu & then sync with local state and local storage
+    closeTaskMenu(taskListCopy);
   };
 
   //TURN THE COMPLETED PROPERTY OF THE CLICKED TASK TO TRUE
@@ -126,25 +127,34 @@ function App() {
         return task;
       }
     });
-    sync(taskListCopy);
+    //Close the task menu & then sync with local state and local storage
+    closeTaskMenu(taskListCopy);
   };
 
-  // TOTAL COMPLETED TASKS
-  const getTotalCompletedTask = () => {
-    let totalCompletedTasks = taskList.filter(
-      (task) => task.completed === true
-    );
-    setCompletedTask(totalCompletedTasks.length);
-  };
-
-  // CLOSE MENU MODAL
-  const closeTaskMenu = () => {
+  //THIS FUNCTION WILL CLOSE ANY TASK MENU THAT IS OPEN
+  const closeTaskMenu = (taskList) => {
     const taskListCopy = taskList.map((task) => {
       task.openTaskModal = false;
       return task;
     });
     sync(taskListCopy);
   };
+
+  // THIS FUNCTION GET ALL THE ACTIVE TASKS
+  const getTotalActiveTask = () => {
+    let allActiveTask = taskList.filter((task) => task.completed === false);
+    return allActiveTask.length;
+  };
+
+  const ClearAllCompletedTasks = (arg) => {
+    let allActiveTasks = arg.filter((task) => task.completed === false);
+    sync(allActiveTasks);
+  };
+
+  //CLOSE ALL TASK MENU WHEN THIS COMPONENT LOADS FOR THE FIRST TIME
+  useEffect(() => {
+    closeTaskMenu(taskList);
+  }, []);
 
   //FOR DEVELOPMENT PURPOSE
   useEffect(() => {
@@ -154,15 +164,21 @@ function App() {
   return (
     <div className='App'>
       <header className='App-header'>
-        <TaskHeader taskList={taskList} completedTask={completedTask} />
+        <TaskHeader
+          taskList={taskList}
+          ClearAllCompletedTasks={ClearAllCompletedTasks}
+        />
       </header>
+      <div>
+        <EditTaskModal />
+      </div>
 
       <main className='App-body'>
         <div>
-          <TaskInput addToTaskList={addToTaskList} />
+          <TaskInput addToTaskList={addToTaskList} taskList={taskList} />
         </div>
         <div className='all-tasks-title'>
-          <span>{taskList.length} Active Tasks</span>
+          <span>{getTotalActiveTask()} Active Tasks</span>
         </div>
         <TaskList
           taskList={taskList}
@@ -174,7 +190,7 @@ function App() {
             { handle: handleInprogress, label: 'In progress' },
             { handle: handleCompleted, label: 'Completed' },
           ]}
-          onToggleRowModal={toggleRowModal}
+          openTheClickedTaskMenu={openTheClickedTaskMenu}
         />
       </main>
       <footer className='App-footer'></footer>
@@ -185,12 +201,21 @@ function App() {
 export default App;
 //git commmit -a -m
 
-/*  window.addEventListener('click', () => {
-    const taskListCopy = taskList.map((task) => {
-      task.openTaskModal = false;
-      return task;
-    });
+/*  
+let lg = console.log;
+export const modifyLedgerItemActions = (formInputData) => (
+  dispatch,
+  getState
+) => {
+  const ledgerData = getState().ledgerData.slice();
+  ledgerData.forEach((itms, i) => {
+    if (formInputData.id === itms.id) {
+      ledgerData.splice(i, 1, formInputData);
+    }
+  });
 
-    sync(taskListCopy);
-    //openTaskModal
-  }); */
+  dispatch({
+    type: MODIFY_LEDGER_ITEM,
+    payload: ledgerData,
+  });
+}; */

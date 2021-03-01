@@ -14,7 +14,7 @@
     border-radius: 2px;
     padding: 0px 15px;
     box-sizing: border-box !important;
-    border-radius: 5px;
+    border-radius: 3px;
     margin: 10px 10px;
     font-size: 14px !important;
     text-transform: capitalize;
@@ -30,7 +30,8 @@
     /*  color: #ddd; */
   }
   .completed {
-    background-color: lightgreen;
+  
+    background-color: #70ABAF;
   }
   .line-Through {
     text-decoration: line-through;
@@ -72,6 +73,9 @@
       margin: 5px 0px;
       cursor: pointer;
       font-size: 12px;
+      &:hover {
+        background-color: rgba(219, 218, 218, 0.5);
+      }
     }
   }
   .showMenu {

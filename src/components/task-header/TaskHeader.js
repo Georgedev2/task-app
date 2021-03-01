@@ -1,8 +1,14 @@
 import React from 'react';
 import { getDate } from '../reusables/utilities';
-import "./task-header.scss"
+import './task-header.scss';
 
-function TaskHeader({ completedTask, taskList }) {
+function TaskHeader({ taskList, ClearAllCompletedTasks }) {
+  const getTotalCompletedTask = (arg) => {
+    // GET THE TOTAL NUMBER OF ALL COMPLETED TASKS
+    let allCompletedTasks = arg.filter((task) => task.completed === true);
+    return allCompletedTasks.length;
+  };
+
   return (
     <div className='app-body'>
       <div className='app-body_date'>
@@ -15,15 +21,15 @@ function TaskHeader({ completedTask, taskList }) {
         </div>
         <div className='app-body_memu'>
           <span>Total Completed Task</span>
-          <span>{completedTask}</span>
+          <span>{getTotalCompletedTask(taskList)}</span>
         </div>
 
-        <div className='app-body_memu'>Clear All Completed Task</div>
+        <div className='app-body_memu' onClick={()=>{ClearAllCompletedTasks(taskList)}}>
+          Clear All Completed Task
+        </div>
       </div>
     </div>
   );
 }
 
 export default TaskHeader;
-
-//added task-header component, utilites.js file and then remove some reducant code from the app and TaskList components, also i removed some code from app.scss file 
