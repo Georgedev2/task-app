@@ -2,9 +2,7 @@ import './task-list.scss';
 //import { useEffect } from 'react';
 
 function TaskList(props) {
-  const { taskList, handles, openTheClickedTaskMenu } = props;
-
-  
+  const { taskList, handles, openTheClickedTaskMenu, editModalTitle } = props;
 
   return (
     <div className='task-list'>
@@ -14,6 +12,9 @@ function TaskList(props) {
           ${task.inprogress && 'inprogress'} 
           ${task.completed && 'completed'}`}
           key={task.id}
+          onDoubleClick={() => {
+            editModalTitle(task);
+          }}
         >
           <div className={`row_title ${task.completed && 'line-Through'}`}>
             {task.title}
@@ -28,7 +29,7 @@ function TaskList(props) {
               <span>&#x22EE;</span>
             </div>
 
-            <ul className={`task-menu ${task.openTaskModal && 'showMenu'}`}>
+            <ul className={`task-menu ${task.openTaskMenu && 'showMenu'}`}>
               {handles.map((el, idx) => {
                 if (el.label === 'Close Menu') {
                   //label: 'Close Menu'

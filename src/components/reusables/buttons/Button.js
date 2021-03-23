@@ -1,8 +1,8 @@
-import React from "react";
-import "./button.scss";
+import './button.scss';
 
-function button({ title }) {
-  return <div className="btn123">{title}</div>;
+function button({ label }) {
+  //THIS COMPONENT TAKES ONE PROPS WHICH IS A STRING
+  return <div className='global-btn '>{label}</div>;
 }
 
 export default button;

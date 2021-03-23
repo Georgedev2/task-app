@@ -6,6 +6,10 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
+:root{
+  /* -------- Z-INDEX DEFINITIONS------- */
+  --edit-modal-z-index:20
+}
 .App {
   .App-header {
     height: 50px;
@@ -19,4 +23,6 @@
     margin: 0 auto;
     font-size: 14px;
   }
+
+ 
 }

@@ -15,6 +15,7 @@ function App() {
     ? JSON.parse(localStorage.getItem('taskApp'))
     : [];
   const [taskList, setTasklist] = useState(tasks);
+  const [editingTaskIfor, setEditingTaskIfor] = useState([]);
 
   //SYNC WITH LOCALSTORAGE & LOCAL STATE
   let sync = (_taskList) => {
@@ -33,7 +34,7 @@ function App() {
           title: inputValue,
           completed: false,
           inprogress: false,
-          openTaskModal: false,
+          openTaskMenu: false,
         },
       ];
       // clear the input  field
@@ -47,11 +48,11 @@ function App() {
   const openTheClickedTaskMenu = (id) => {
     const modifiedTaskList = taskList.map((task) => {
       if (task.id === id) {
-        task.openTaskModal = true;
+        task.openTaskMenu = true;
         return task;
         // Here we modify each property of the array element passed to the map function and then return it.
       } else {
-        task.openTaskModal = false;
+        task.openTaskMenu = false;
         return task;
       }
     });
@@ -134,7 +135,7 @@ function App() {
   //THIS FUNCTION WILL CLOSE ANY TASK MENU THAT IS OPEN
   const closeTaskMenu = (taskList) => {
     const taskListCopy = taskList.map((task) => {
-      task.openTaskModal = false;
+      task.openTaskMenu = false;
       return task;
     });
     sync(taskListCopy);
@@ -146,15 +147,39 @@ function App() {
     return allActiveTask.length;
   };
 
+  //CLEAR ALL COMPLETED TASK
   const ClearAllCompletedTasks = (arg) => {
+    //This function when called will filter out all task whose completed property is true out of it argument which is an array of objects
     let allActiveTasks = arg.filter((task) => task.completed === false);
     sync(allActiveTasks);
+  };
+
+  const editModalTitle = (arg) => {
+    console.log(arg);
+    setEditingTaskIfor([arg]);
   };
 
   //CLOSE ALL TASK MENU WHEN THIS COMPONENT LOADS FOR THE FIRST TIME
   useEffect(() => {
     closeTaskMenu(taskList);
   }, []);
+
+  const clickOutside = () => {
+    console.log('window clicked!!');
+    // console.log(e.target);
+ //closeTaskMenu(taskList);
+  };
+  
+  //document.addEventListener('click', clickOutside)
+  useEffect(() => {
+    //attach events
+    document.addEventListener('click', clickOutside);
+
+    // Cleaning Up atteched  event To avoid memeory leaks
+    return function () {
+      document.removeEventListener('click', clickOutside);
+    };
+  }); 
 
   //FOR DEVELOPMENT PURPOSE
   useEffect(() => {
@@ -170,7 +195,9 @@ function App() {
         />
       </header>
       <div>
-        <EditTaskModal />
+        {editingTaskIfor.length > 0 && (
+          <EditTaskModal editingTaskIfor={editingTaskIfor} />
+        )}
       </div>
 
       <main className='App-body'>
@@ -191,6 +218,7 @@ function App() {
             { handle: handleCompleted, label: 'Completed' },
           ]}
           openTheClickedTaskMenu={openTheClickedTaskMenu}
+          editModalTitle={editModalTitle}
         />
       </main>
       <footer className='App-footer'></footer>
